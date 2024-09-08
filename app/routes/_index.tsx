@@ -9,7 +9,7 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { desc } from "drizzle-orm";
+import { desc, max } from "drizzle-orm";
 import { db } from "~/db";
 import { type InsertTask, tasksTable } from "~/db/schema";
 
@@ -40,9 +40,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ error: "タイトルは必須です" }, { status: 400 });
   }
 
+  const [{ maxDisplayOrder }] = await db
+    .select({ maxDisplayOrder: max(tasksTable.displayOrder) })
+    .from(tasksTable);
+
+  const newDisplayOrder = (maxDisplayOrder ?? 0) + 1;
+
   const task: InsertTask = {
     title,
-    displayOrder: 0,
+    displayOrder: newDisplayOrder,
   };
 
   try {
@@ -58,11 +64,12 @@ export const loader = async () => {
   const tasks = await db
     .select()
     .from(tasksTable)
-    .orderBy(desc(tasksTable.createdAt));
+    .orderBy(desc(tasksTable.displayOrder));
   return json({ tasks });
 };
 
 export default function Index() {
+  const actionData = useActionData<typeof action>();
   const { tasks } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
 
@@ -78,11 +85,20 @@ export default function Index() {
           {navigation.state === "submitting" ? "追加中..." : "タスクを追加"}
         </Button>
       </Form>
+      {actionData?.error && (
+        <p className="text-red-500 mb-4">{actionData.error}</p>
+      )}
+      {actionData?.task && (
+        <p className="text-green-500 mb-4">
+          タスクが追加されました: {actionData.task.title}
+        </p>
+      )}
 
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>タスク</TableHead>
+            <TableHead>表示順</TableHead>
             <TableHead>作成日時</TableHead>
           </TableRow>
         </TableHeader>
@@ -90,6 +106,7 @@ export default function Index() {
           {tasks.map((task) => (
             <TableRow key={task.id}>
               <TableCell>{task.title}</TableCell>
+              <TableCell>{task.displayOrder}</TableCell>
               <TableCell>{new Date(task.createdAt).toLocaleString()}</TableCell>
             </TableRow>
           ))}
