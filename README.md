@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# Commit Today
 
 - 📖 [Remix docs](https://remix.run/docs)
 
