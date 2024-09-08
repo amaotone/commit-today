@@ -85,10 +85,10 @@ export default function Index() {
           {navigation.state === "submitting" ? "追加中..." : "タスクを追加"}
         </Button>
       </Form>
-      {actionData?.error && (
+      {actionData && "error" in actionData && (
         <p className="text-red-500 mb-4">{actionData.error}</p>
       )}
-      {actionData?.task && (
+      {actionData && "task" in actionData && (
         <p className="text-green-500 mb-4">
           タスクが追加されました: {actionData.task.title}
         </p>
