@@ -9,7 +9,10 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "lint": "biome lint --write ./app",
-    "format": "biome format --write ./app"
+    "format": "biome format --write ./app",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

@@ -42,6 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const task: InsertTask = {
     title,
+    displayOrder: 0,
   };
 
   try {
