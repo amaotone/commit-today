@@ -19,8 +19,6 @@ export function TaskRow({ task }: TaskRowProps) {
   return (
     <TableRow ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <TableCell>{task.title}</TableCell>
-      <TableCell>{task.displayOrder}</TableCell>
-      <TableCell>{new Date(task.createdAt).toLocaleString()}</TableCell>
     </TableRow>
   );
 }

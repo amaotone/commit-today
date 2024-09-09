@@ -87,8 +87,6 @@ export function TaskList({ tasks: initialTasks }: TaskListProps) {
         <TableHeader>
           <TableRow>
             <TableHead>タスク</TableHead>
-            <TableHead>表示順</TableHead>
-            <TableHead>作成日時</TableHead>
           </TableRow>
         </TableHeader>
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
