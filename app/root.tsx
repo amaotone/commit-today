@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Navbar } from "~/components/Navbar";
 import { Toaster } from "~/components/ui/toaster";
 
 import "./tailwind.css";
@@ -21,7 +22,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Navbar />
+        <main className="container mx-auto mt-8">
+          <Outlet />
+        </main>
         <Toaster />
         <ScrollRestoration />
         <Scripts />

@@ -80,7 +80,6 @@ export default function Index() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">タスク管理アプリ</h1>
       <TaskForm />
       <TaskList tasks={tasks} />
     </div>
