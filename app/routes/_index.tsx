@@ -1,4 +1,5 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useEffect } from "react";
 import {
   typedjson,
   useTypedActionData,
@@ -6,6 +7,7 @@ import {
 } from "remix-typedjson";
 import { TaskForm } from "~/components/TaskForm";
 import { TaskList } from "~/components/TaskList";
+import { useToast } from "~/hooks/use-toast";
 import { createTask, getTasks, reorderTasks } from "~/utils/tasks.server";
 
 export const meta: MetaFunction = () => [
@@ -44,19 +46,29 @@ export const loader = async () => {
 export default function Index() {
   const actionData = useTypedActionData<typeof action>();
   const { tasks } = useTypedLoaderData<typeof loader>();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (actionData) {
+      if ("error" in actionData) {
+        toast({
+          variant: "destructive",
+          title: "エラー",
+          description: actionData.error,
+        });
+      } else if ("task" in actionData) {
+        toast({
+          title: "タスク追加",
+          description: `タスク「${actionData.task.title}」が追加されました`,
+        });
+      }
+    }
+  }, [actionData, toast]);
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">タスク管理アプリ</h1>
       <TaskForm />
-      {actionData && "error" in actionData && (
-        <p className="text-red-500 mb-4">{actionData.error}</p>
-      )}
-      {actionData && "task" in actionData && (
-        <p className="text-green-500 mb-4">
-          タスクが追加されました: {actionData.task.title}
-        </p>
-      )}
       <TaskList tasks={tasks} />
     </div>
   );
