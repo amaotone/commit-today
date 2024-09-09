@@ -10,11 +10,10 @@ export function TaskForm() {
     <Form method="post" className="mb-8 space-y-4">
       <input type="hidden" name="intent" value="create" />
       <div>
-        <Label htmlFor="title">タスクタイトル</Label>
         <Input id="title" name="title" placeholder="タスクを入力" required />
       </div>
       <Button type="submit" disabled={navigation.state === "submitting"}>
-        {navigation.state === "submitting" ? "追加中..." : "タスクを追加"}
+        タスクを追加
       </Button>
     </Form>
   );

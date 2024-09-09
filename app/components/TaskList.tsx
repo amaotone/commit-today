@@ -14,7 +14,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useSubmit } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskRow } from "~/components/TaskRow";
 import {
   Table,
@@ -32,6 +32,10 @@ interface TaskListProps {
 export function TaskList({ tasks: initialTasks }: TaskListProps) {
   const [tasks, setTasks] = useState(initialTasks);
   const submit = useSubmit();
+
+  useEffect(() => {
+    setTasks(initialTasks);
+  }, [initialTasks]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
