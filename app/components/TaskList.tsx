@@ -13,7 +13,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useSubmit } from "@remix-run/react";
+import { useActionData, useSubmit } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { TaskRow } from "~/components/TaskRow";
 import {
@@ -87,6 +87,9 @@ export function TaskList({ tasks: initialTasks }: TaskListProps) {
         <TableHeader>
           <TableRow>
             <TableHead>タスク</TableHead>
+            <TableHead>表示順</TableHead>
+            <TableHead>作成日時</TableHead>
+            <TableHead>操作</TableHead>
           </TableRow>
         </TableHeader>
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>

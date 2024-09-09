@@ -50,3 +50,15 @@ export async function reorderTasks(
 export async function getTasks(): Promise<SelectTask[]> {
   return db.select().from(tasksTable).orderBy(asc(tasksTable.displayOrder));
 }
+
+export async function deleteTask(
+  taskId: string,
+): Promise<{ success: true } | { error: string }> {
+  try {
+    await db.delete(tasksTable).where(eq(tasksTable.id, taskId));
+    return { success: true };
+  } catch (error) {
+    console.error("タスク削除エラー:", error);
+    return { error: "タスクの削除に失敗しました" };
+  }
+}

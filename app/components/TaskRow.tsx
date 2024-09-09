@@ -1,5 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { Form } from "@remix-run/react";
+import { Button } from "~/components/ui/button";
 import { TableCell, TableRow } from "~/components/ui/table";
 import type { SelectTask } from "~/db/schema";
 
@@ -19,6 +22,17 @@ export function TaskRow({ task }: TaskRowProps) {
   return (
     <TableRow ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <TableCell>{task.title}</TableCell>
+      <TableCell>{task.displayOrder}</TableCell>
+      <TableCell>{new Date(task.createdAt).toLocaleString()}</TableCell>
+      <TableCell>
+        <Form method="post">
+          <input type="hidden" name="intent" value="delete" />
+          <input type="hidden" name="taskId" value={task.id} />
+          <Button type="submit" variant="destructive" size="sm">
+            <TrashIcon className="h-4 w-4" />
+          </Button>
+        </Form>
+      </TableCell>
     </TableRow>
   );
 }

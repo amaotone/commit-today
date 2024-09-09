@@ -8,7 +8,12 @@ import {
 import { TaskForm } from "~/components/TaskForm";
 import { TaskList } from "~/components/TaskList";
 import { useToast } from "~/hooks/use-toast";
-import { createTask, getTasks, reorderTasks } from "~/utils/tasks.server";
+import {
+  createTask,
+  deleteTask,
+  getTasks,
+  reorderTasks,
+} from "~/utils/tasks.server";
 
 export const meta: MetaFunction = () => [
   { title: "タスク管理アプリ" },
@@ -33,6 +38,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       return typedjson({ error: "Invalid request" }, { status: 400 });
     }
     return typedjson(await reorderTasks(tasksJson));
+  }
+
+  if (intent === "delete") {
+    const id = formData.get("taskId");
+    if (typeof id !== "string") {
+      return typedjson({ error: "Invalid request" }, { status: 400 });
+    }
+    return typedjson(await deleteTask(id));
   }
 
   return typedjson({ error: "Invalid intent" }, { status: 400 });
