@@ -35,7 +35,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
     "isbot": "^4.1.0",
-    "lucide-react": "^0.439.0",
+    "lucide-react": "^0.451.0",
     "postgres": "^3.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
